@@ -60,19 +60,20 @@ module RSpec
 
       def find_axlsx_sheet(subject)
         return unless defined?(Axlsx)
+        return subject if subject.is_a?(Axlsx::Worksheet)
 
-        if subject.is_a?(Axlsx::Workbook)
-          axlsx_sheet_from_workbook(subject)
-        elsif subject.is_a?(Axlsx::Worksheet)
-          subject
-        end
+        subject = subject.workbook if subject.is_a?(Axlsx::Package)
+
+        return unless subject.is_a?(Axlsx::Workbook)
+
+        axlsx_sheet_from_workbook(subject)
       end
 
-      def axlsx_sheet_from_workbook(worbook)
+      def axlsx_sheet_from_workbook(workbook)
         if sheet_name.is_a?(String)
-          worbook.sheet_by_name(sheet_name)
+          workbook.sheet_by_name(sheet_name)
         elsif sheet_name.is_a?(Integer)
-          worbook.worksheets(sheet_name)
+          workbook.worksheets[sheet_name]
         else
           raise ArgumentError, "Missing sheet name"
         end
@@ -94,8 +95,13 @@ module RSpec
         spreadsheet.sheet_for(sheet_name)
       end
 
-      def match_axlsx_columns(_worksheet)
-        raise "Matcher not implemented yet"
+      def match_axlsx_columns(worksheet)
+        @actual_columns = worksheet.rows[0]&.map(&:value)
+        if exact_match
+          perform_exact_match
+        else
+          perform_loose_match
+        end
       end
 
       def match_roo_columns(worksheet)

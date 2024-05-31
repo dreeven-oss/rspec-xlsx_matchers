@@ -191,17 +191,27 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
     it_behaves_like "columns matcher without sheet"
   end
 
-  # context "when providing a Axlsx::Package" do
-  #   include_context "with a simple caxlsx instance"
-  #   let(:matcher_argument) { caxlsx_data }
+  context "when providing a Axlsx::Package" do
+    subject(:subject) { caxlsx_data }
 
-  #   it_behaves_like "columns matcher in sheet"
-  # end
+    include_context "with a simple caxlsx instance"
 
-  # context "when providing a Axlsx::Workbook" do
-  #   include_context "with a simple caxlsx instance"
-  #   let(:matcher_argument) { caxlsx_data.workbook }
+    it_behaves_like "columns matcher in sheet"
+  end
 
-  #   it_behaves_like "columns matcher with_sheet"
-  # end
+  context "when providing a Axlsx::Workbook" do
+    subject(:subject) { caxlsx_data.workbook }
+
+    include_context "with a simple caxlsx instance"
+
+    it_behaves_like "columns matcher in sheet"
+  end
+
+  context "when providing a Axlsx::Worksheet" do
+    subject(:subject) { caxlsx_data.workbook.worksheets[0] }
+
+    include_context "with a simple caxlsx instance"
+
+    it_behaves_like "columns matcher without sheet"
+  end
 end
