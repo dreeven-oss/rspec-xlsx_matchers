@@ -1,79 +1,86 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "roo"
 
-RSpec.describe Rspec::XlsxMatchers::Sheets do
-  subject(:matcher) { described_class.new(expected_sheet_names) }
-
+RSpec.describe RSpec::XlsxMatchers::Sheets do
   let(:file_path) { fixture_file_path "file_example_XLSX_10.xlsx" }
 
   RSpec.shared_examples "sheet matcher" do
-    context "with sheet name" do
-      let(:expected_sheet_names) { ["Sheet1"] }
-
-      it "is successful" do
-        expect(matcher.match(matcher_argument)).to be(true)
-      end
+    it "finds sheet by name" do
+      expect(subject).to have_excel_sheets("Sheet1")
     end
 
-    context "with invalid sheet name" do
-      let(:expected_sheet_names) { ["Test"] }
-
-      it "is successful" do
-        expect(matcher.match(matcher_argument)).to be(false)
-      end
-
-      it "has_expected_message" do
-        matcher.match(matcher_argument)
-        expect(matcher.failure_message).to eq("Xlsx file sheets not found: [Test]")
-      end
+    it "finds sheet by name with array" do
+      expect(subject).to have_excel_sheets(["Sheet1"])
     end
 
-    context "with index" do
-      let(:expected_sheet_names) { [0] }
-
-      it "is successful" do
-        expect(matcher.match(matcher_argument)).to be(true)
-      end
+    it "fails with invalid name" do
+      expect do
+        expect(subject).to have_excel_sheets("Test")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Xlsx file sheets not found: 'Test'"
+      )
     end
 
-    context "with invalid index" do
-      let(:expected_sheet_names) { [3] }
+    it "fails with invalid name with array" do
+      expect do
+        expect(subject).to have_excel_sheets(["Test"])
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Xlsx file sheets not found: 'Test'"
+      )
+    end
 
-      it "is successful" do
-        expect(matcher.match(matcher_argument)).to be(false)
-      end
+    it "finds sheet by index" do
+      expect(subject).to have_excel_sheets(0)
+    end
 
-      it "has_expected_message" do
-        matcher.match(matcher_argument)
-        expect(matcher.failure_message).to eq("Xlsx file sheets not found: [3]")
-      end
+    it "finds sheet by index with array" do
+      expect(subject).to have_excel_sheets([0])
+    end
+
+    it "fails with invalid index" do
+      expect do
+        expect(subject).to have_excel_sheets(1)
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Xlsx file sheets not found: '1'"
+      )
+    end
+
+    it "fails with invalid index with array" do
+      expect do
+        expect(subject).to have_excel_sheets([1])
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Xlsx file sheets not found: '1'"
+      )
     end
   end
 
   context "when providing a path" do
-    let(:matcher_argument) { file_path }
+    let(:subject) { file_path }
 
     it_behaves_like "sheet matcher"
   end
 
   context "when providing a Roo::Excelx file" do
-    let(:matcher_argument) { Roo::Spreadsheet.open(file_path) }
+    let(:subject) { Roo::Spreadsheet.open(file_path) }
 
     it_behaves_like "sheet matcher"
   end
 
   context "when providing a Axlsx::Package" do
     include_context "with a simple caxlsx instance"
-    let(:matcher_argument) { caxlsx_data }
+    let(:subject) { caxlsx_data }
 
     it_behaves_like "sheet matcher"
   end
 
   context "when providing a Axlsx::Workbook" do
     include_context "with a simple caxlsx instance"
-    let(:matcher_argument) { caxlsx_data.workbook }
+    let(:subject) { caxlsx_data.workbook }
 
     it_behaves_like "sheet matcher"
   end

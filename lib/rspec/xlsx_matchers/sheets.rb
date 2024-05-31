@@ -1,38 +1,51 @@
 # frozen_string_literal: true
 
-module Rspec
+module RSpec
   module XlsxMatchers
     class Sheets
       attr_reader :errors, :expected_sheet_names
 
       def initialize(expected_sheet_names)
-        @expected_sheet_names = expected_sheet_names
+        @expected_sheet_names = if expected_sheet_names.is_a?(Array)
+                                  expected_sheet_names
+                                else
+                                  [expected_sheet_names]
+                                end
         @errors = []
       end
 
-      def match(excel_file)
-        if excel_file.is_a?(String)
-          match_string(excel_file)
-        elsif defined?(Roo::Excelx) && excel_file.is_a?(Roo::Excelx)
-          match_roo_excelx(excel_file)
-        elsif defined?(Axlsx) && excel_file.is_a?(Axlsx::Package)
-          match_caxlsx(excel_file.workbook)
-        elsif defined?(Axlsx) && excel_file.is_a?(Axlsx::Workbook)
-          match_caxlsx(excel_file)
+      def matches?(subject)
+        if subject.is_a?(String)
+          match_string(subject)
+        elsif defined?(Roo::Excelx) && subject.is_a?(Roo::Excelx)
+          match_roo_excelx(subject)
+        elsif defined?(Axlsx)
+          matches_axlsx?(subject)
         else
           invalid_file
         end
       end
 
       def failure_message
-        "Xlsx file sheets not found: [#{errors.join("\n")}]"
+        "Xlsx file sheets not found: #{errors.map { |s| "'#{s}'" }.join(",")}"
       end
 
       private
 
+      def matches_axlsx?(subject)
+        if subject.is_a?(Axlsx::Package)
+          match_caxlsx(subject.workbook)
+        elsif defined?(Axlsx) && subject.is_a?(Axlsx::Workbook)
+          match_caxlsx(subject)
+        else
+          invalid_file
+        end
+      end
+
       def invalid_file
         raise ArgumentError, "Could not evaluate the sheets existance, "\
-            "the matcher expected an instance of Roo::Excelx, Axlsx::Package or Axlsx::Workbook, got #{excel_file.class}."
+            "the matcher expected an instance of Roo::Excelx, "\
+            "Axlsx::Package or Axlsx::Workbook, got #{excel_file.class}."
       end
 
       def match_caxlsx(excel_file)

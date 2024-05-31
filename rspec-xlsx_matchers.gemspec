@@ -4,8 +4,8 @@ require_relative "lib/rspec/xlsx_matchers/version"
 
 Gem::Specification.new do |spec|
   spec.name = "rspec-xlsx_matchers"
-  spec.version = Rspec::XlsxMatchers::VERSION
-  # spec.authors = ["drvn-eb"]
+  spec.version = RSpec::XlsxMatchers::VERSION
+  spec.authors = ["drvn-eb"]
   # spec.email = [""]
 
   spec.summary = "RSpec XLSX matchers"

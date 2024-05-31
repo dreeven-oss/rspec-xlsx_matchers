@@ -18,3 +18,9 @@ Layout/LineLength:
 Naming/PredicateName:
   NamePrefix: 
     - is_
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
