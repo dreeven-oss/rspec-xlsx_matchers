@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require_relative "xlsx_matchers/version"
+require_relative "xlsx_matchers/utils"
 require_relative "xlsx_matchers/sheets"
 require_relative "xlsx_matchers/columns"
+
 
 begin
   require "roo"

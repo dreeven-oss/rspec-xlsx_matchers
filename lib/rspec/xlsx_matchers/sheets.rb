@@ -3,14 +3,11 @@
 module RSpec
   module XlsxMatchers
     class Sheets
+      include Utils
       attr_reader :errors, :expected_sheet_names
 
       def initialize(expected_sheet_names)
-        @expected_sheet_names = if expected_sheet_names.is_a?(Array)
-                                  expected_sheet_names
-                                else
-                                  [expected_sheet_names]
-                                end
+        @expected_sheet_names = force_array expected_sheet_names
         @errors = []
       end
 

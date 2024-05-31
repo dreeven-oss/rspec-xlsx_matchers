@@ -62,7 +62,7 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
           expect(subject).to have_excel_columns(["First Name",	"Last Name",	"Gender"]).in_sheet("Sheet1").exactly
         end.to raise_error(
           RSpec::Expectations::ExpectationNotMetError,
-          "Columns mismatch in sheet Sheet1:\n\tMissing columns: '0', 'Country', 'Age', 'Date', 'Id'"
+          "Columns mismatch in sheet Sheet1:\n\tMissing columns: 0, 'Country', 'Age', 'Date', 'Id'"
         )
       end
 
@@ -94,8 +94,8 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
         end.to raise_error(
           RSpec::Expectations::ExpectationNotMetError,
           "Columns mismatch in sheet Sheet1:\n\t" \
-          "Expected: #{expected.map { |c| "'#{c}'" }.join(", ")}\n\t" \
-          "Received: #{expected_columns.map { |c| "'#{c}'" }.join(", ")}"
+          "Expected: 0, 'Last Name', 'Gender', 'Country', 'Age', 'Date', 'Id', 'First Name'\n\t" \
+          "Received: 0, 'First Name', 'Last Name', 'Gender', 'Country', 'Age', 'Date', 'Id'"
         )
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
           expect(subject).to have_excel_columns(["First Name",	"Last Name",	"Gender"]).exactly
         end.to raise_error(
           RSpec::Expectations::ExpectationNotMetError,
-          "Columns mismatch:\n\tMissing columns: '0', 'Country', 'Age', 'Date', 'Id'"
+          "Columns mismatch:\n\tMissing columns: 0, 'Country', 'Age', 'Date', 'Id'"
         )
       end
 
@@ -166,8 +166,8 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
         end.to raise_error(
           RSpec::Expectations::ExpectationNotMetError,
           "Columns mismatch:\n\t" \
-          "Expected: #{expected.map { |c| "'#{c}'" }.join(", ")}\n\t" \
-          "Received: #{expected_columns.map { |c| "'#{c}'" }.join(", ")}"
+          "Expected: 0, 'Last Name', 'Gender', 'Country', 'Age', 'Date', 'Id', 'First Name'\n\t" \
+          "Received: 0, 'First Name', 'Last Name', 'Gender', 'Country', 'Age', 'Date', 'Id'"
         )
       end
     end

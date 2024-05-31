@@ -3,11 +3,12 @@
 module RSpec
   module XlsxMatchers
     class Columns
+      include RSpec::XlsxMatchers::Utils
       attr_reader :extra_columns, :missing_columns, :expected_columns, :sheet_name, :sheet, :exact_match,
                   :actual_columns
 
       def initialize(expected_columns)
-        @expected_columns = expected_columns
+        @expected_columns = force_array(expected_columns)
         @missing_columns = []
         @extra_columns = []
         @exact_match = false
@@ -141,8 +142,8 @@ module RSpec
       def column_order_failure_message
         return unless exact_match
 
-        "Expected: #{expected_columns.map { |c| "'#{c}'" }.join(", ")}\n\t"\
-        "Received: #{actual_columns.map { |c| "'#{c}'" }.join(", ")}"
+        "Expected: #{map_output(expected_columns)}\n\t"\
+        "Received: #{map_output(actual_columns)}"
       end
 
       def column_mismatch_failure_message
@@ -157,13 +158,13 @@ module RSpec
       def missing_column_failure_message
         return if missing_columns.empty?
 
-        "Missing columns: #{(missing_columns.map { |c| "'#{c}'" }).join(", ")}"
+        "Missing columns: #{map_output(missing_columns)}"
       end
 
       def extra_columns_failure_message
         return if extra_columns.empty?
 
-        "Extra columns: #{(extra_columns.map { |c| "'#{c}'" }).join(", ")}"
+        "Extra columns: #{map_output(extra_columns)}"
       end
     end
   end
