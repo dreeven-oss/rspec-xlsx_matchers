@@ -31,7 +31,7 @@ module RSpec
       end
 
       def process_roo_sheet
-        row = sheet.row(row_index).compact
+        row = sheet.row(row_index + 1).compact
         true if row.empty?
       end
     end
