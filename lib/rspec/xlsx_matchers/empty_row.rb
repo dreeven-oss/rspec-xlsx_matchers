@@ -24,13 +24,13 @@ module RSpec
 
       private
 
-      def process_axlsx_sheet(worksheet)
-        row = worksheet.rows[row_index]
+      def process_axlsx_sheet
+        row = sheet.rows[row_index]
         true if row.nil?
       end
 
-      def process_roo_sheet(worksheet)
-        row = worksheet.row(row_index).compact
+      def process_roo_sheet
+        row = sheet.row(row_index).compact
         true if row.empty?
       end
     end

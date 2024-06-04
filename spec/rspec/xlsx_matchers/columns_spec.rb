@@ -3,9 +3,8 @@
 require "spec_helper"
 
 RSpec.describe RSpec::XlsxMatchers::Columns do
-  let(:expected_columns) { [0,	"First Name",	"Last Name",	"Gender",	"Country",	"Age",	"Date",	"Id"] }
-
-  let(:file_path) { fixture_file_path "file_example_XLSX_10.xlsx" }
+  include_context "with simple example data"
+  let(:expected_columns) { raw_data[0] }
 
   RSpec.shared_examples "columns matcher in sheet" do
     it "succeeds with all columns in sheet by name" do
@@ -23,33 +22,46 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
     it "fails if sheet is absent" do
       expect do
         expect(subject).to have_excel_columns(expected_columns)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError, "Sheet not provided")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Sheet not provided"
+      )
     end
 
     it "fails if sheet name is invalid" do
       expect do
         expect(subject).to have_excel_columns(expected_columns).in_sheet("Not A Sheet")
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError, "Could not find sheet Not A Sheet")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Could not find sheet Not A Sheet"
+      )
     end
 
     it "fails if sheet index is invalid" do
       expect do
         expect(subject).to have_excel_columns(expected_columns).in_sheet(2)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError, "Could not find sheet 2")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Could not find sheet 2"
+      )
     end
 
     it "fails if one column is not found" do
       expect do
         expect(subject).to have_excel_columns(expected_columns + ["SSN"]).in_sheet(0)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         "Columns mismatch in sheet 0:\n\tMissing columns: 'SSN'")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Columns mismatch in sheet 0:\n\tMissing columns: 'SSN'"
+      )
     end
 
     it "fails if many columns are not found" do
       expect do
         expect(subject).to have_excel_columns(expected_columns + %w[SSN State]).in_sheet(0)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         "Columns mismatch in sheet 0:\n\tMissing columns: 'SSN', 'State'")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Columns mismatch in sheet 0:\n\tMissing columns: 'SSN', 'State'"
+      )
     end
 
     describe "exactly" do
@@ -113,15 +125,19 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
     it "fails if one column is not found" do
       expect do
         expect(subject).to have_excel_columns(expected_columns + ["SSN"])
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         "Columns mismatch:\n\tMissing columns: 'SSN'")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Columns mismatch:\n\tMissing columns: 'SSN'"
+      )
     end
 
     it "fails if many columns are not found" do
       expect do
         expect(subject).to have_excel_columns(expected_columns + %w[SSN State])
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         "Columns mismatch:\n\tMissing columns: 'SSN', 'State'")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Columns mismatch:\n\tMissing columns: 'SSN', 'State'"
+      )
     end
 
     describe "exactly" do
@@ -194,23 +210,17 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
   context "when providing a Axlsx::Package" do
     subject(:subject) { caxlsx_data }
 
-    include_context "with a simple caxlsx instance"
-
     it_behaves_like "columns matcher in sheet"
   end
 
   context "when providing a Axlsx::Workbook" do
     subject(:subject) { caxlsx_data.workbook }
 
-    include_context "with a simple caxlsx instance"
-
     it_behaves_like "columns matcher in sheet"
   end
 
   context "when providing a Axlsx::Worksheet" do
     subject(:subject) { caxlsx_data.workbook.worksheets[0] }
-
-    include_context "with a simple caxlsx instance"
 
     it_behaves_like "columns matcher without sheet"
   end

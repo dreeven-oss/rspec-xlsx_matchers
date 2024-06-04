@@ -24,8 +24,8 @@ module RSpec
 
       private
 
-      def process_axlsx_sheet(worksheet)
-        @actual_columns = worksheet.rows[0]&.map(&:value)
+      def process_axlsx_sheet
+        @actual_columns = sheet.rows[0]&.map(&:value)
         if exact_match
           perform_exact_match
         else
@@ -33,8 +33,8 @@ module RSpec
         end
       end
 
-      def process_roo_sheet(worksheet)
-        @actual_columns = worksheet.row(1)
+      def process_roo_sheet
+        @actual_columns = sheet.row(1)
         if exact_match
           perform_exact_match
         else

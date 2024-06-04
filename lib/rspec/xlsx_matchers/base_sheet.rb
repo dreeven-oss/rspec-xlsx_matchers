@@ -12,7 +12,7 @@ module RSpec
         @sheet = find_sheet(subject, sheet_name)
         return false if sheet.nil?
 
-        process_sheet(sheet)
+        process_sheet
       end
 
       def in_sheet(name)
@@ -65,11 +65,11 @@ module RSpec
         spreadsheet.sheet_for(sheet_name)
       end
 
-      def process_sheet(sheet)
+      def process_sheet
         if defined?(Axlsx) && sheet.is_a?(Axlsx::Worksheet)
-          process_axlsx_sheet(sheet)
+          process_axlsx_sheet
         elsif defined?(Roo::Excelx) && sheet.is_a?(Roo::Excelx::Sheet)
-          process_roo_sheet(sheet)
+          process_roo_sheet
         else
           raise "Unsupported worksheet type: #{worksheet.class}"
         end

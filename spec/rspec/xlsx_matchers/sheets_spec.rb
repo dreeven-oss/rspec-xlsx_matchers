@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe RSpec::XlsxMatchers::Sheets do
-  let(:file_path) { fixture_file_path "file_example_XLSX_10.xlsx" }
+  include_context "with simple example data"
 
   RSpec.shared_examples "sheet matcher" do
     it "finds sheet by name" do
@@ -72,14 +72,12 @@ RSpec.describe RSpec::XlsxMatchers::Sheets do
   end
 
   context "when providing a Axlsx::Package" do
-    include_context "with a simple caxlsx instance"
     let(:subject) { caxlsx_data }
 
     it_behaves_like "sheet matcher"
   end
 
   context "when providing a Axlsx::Workbook" do
-    include_context "with a simple caxlsx instance"
     let(:subject) { caxlsx_data.workbook }
 
     it_behaves_like "sheet matcher"
