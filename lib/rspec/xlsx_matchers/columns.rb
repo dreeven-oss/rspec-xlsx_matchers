@@ -58,7 +58,7 @@ module RSpec
 
       def perform_loose_match
         expected_columns.each do |column|
-          missing_columns << column unless actual_columns.include?(column)
+          missing_columns << column unless actual_columns&.include?(column)
         end
         missing_columns.empty?
       end
