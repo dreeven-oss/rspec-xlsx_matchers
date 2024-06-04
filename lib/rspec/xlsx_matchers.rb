@@ -32,17 +32,6 @@ module RSpec
   #  - have_excel_empty_row
   #  - have_excel_cells
   #  - have_excel_cell_value
-  #
-  #  ## Configure
-  #  add `config.include RSpec::XlsxMatchers` to your RSpec.configure declaration
-  #
-  #  ## Matchers
-  #  ### have_excel_sheets
-  #  subject must be one of the following types:
-  #    - String: file path to an excel file (requires roo gem)
-  #    - Roo::Excelx: excel file loaded with roo (requires roo gem)
-  #    - Axlsx::Package: (requires caxlsx gem)
-  #    - Axlsx::Workbook: (requires caxlsx gem)
   module XlsxMatchers
     # class Error < StandardError; end
 

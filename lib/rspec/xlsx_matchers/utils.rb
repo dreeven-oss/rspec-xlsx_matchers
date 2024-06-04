@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    # internal utilities
     module Utils
       def force_array(value)
         if value.is_a?(Array)

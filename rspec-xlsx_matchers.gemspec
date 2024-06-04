@@ -6,18 +6,18 @@ Gem::Specification.new do |spec|
   spec.name = "rspec-xlsx_matchers"
   spec.version = RSpec::XlsxMatchers::VERSION
   spec.authors = ["drvn-eb"]
-  # spec.email = [""]
 
-  spec.summary = "RSpec XLSX matchers"
-  spec.description = "RSpec xlsx matchers"
-  # spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "RSpec Xlsx matchers"
+  spec.description = "RSpec Xlsx matchers"
+
+  spec.homepage = "https://github.com/dreeven-oss/rspec-xlsx_matchers"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
-  # spec.metadata["homepage_uri"] = spec.homepage
-  # spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/dreeven-oss/rspec-xlsx_matchers"
   # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   # Specify which files should be added to the gem when it is released.

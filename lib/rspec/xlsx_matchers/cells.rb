@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    # have_excel_cells
     class Cells < BaseSheet
       include InRow
       attr_reader :expected_cells, :actual_cells, :mismatch_indexes

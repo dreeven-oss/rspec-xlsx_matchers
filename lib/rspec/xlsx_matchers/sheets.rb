@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    # have_excel_sheets
     class Sheets
       include Utils
       attr_reader :errors, :expected_sheet_names

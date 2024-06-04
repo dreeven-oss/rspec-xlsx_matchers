@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    # have_excel_empty_row
     class EmptyRow < BaseSheet
       attr_reader :row_index
 

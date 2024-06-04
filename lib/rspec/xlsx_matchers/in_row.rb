@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    # common base row based matchers
     module InRow
       attr_reader :row_index
 

@@ -46,7 +46,10 @@ RSpec.describe RSpec::XlsxMatchers::CellValue do
 
       it "fails when provided sheet name is invalid" do
         expect do
-          expect(subject).to have_excel_cell_value("Hashimoto").in_row(2).in_column("Last Name").in_sheet("InvalidSheetName")
+          expect(subject).to have_excel_cell_value("Hashimoto")
+            .in_row(2)
+            .in_column("Last Name")
+            .in_sheet("InvalidSheetName")
         end.to raise_error(
           RSpec::Expectations::ExpectationNotMetError,
           "Could not find sheet InvalidSheetName"

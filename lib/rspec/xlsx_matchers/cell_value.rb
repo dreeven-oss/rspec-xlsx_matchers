@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    ## have_excel_cell_value
     class CellValue < BaseSheet
       include InRow
       include InColumn

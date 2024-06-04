@@ -2,6 +2,7 @@
 
 module RSpec
   module XlsxMatchers
+    # common base for columns matchers
     module InColumn
       attr_reader :column_name
 
