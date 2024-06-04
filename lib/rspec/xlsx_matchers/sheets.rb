@@ -12,7 +12,7 @@ module RSpec
       end
 
       def matches?(subject)
-        if subject.is_a?(String)
+        if subject.is_a?(String) || subject.is_a?(File)
           match_string(subject)
         elsif defined?(Roo::Excelx) && subject.is_a?(Roo::Excelx)
           match_roo_excelx(subject)
@@ -40,9 +40,9 @@ module RSpec
       end
 
       def invalid_file
-        raise ArgumentError, "Could not evaluate the sheets existance, "\
-            "the matcher expected an instance of Roo::Excelx, "\
-            "Axlsx::Package or Axlsx::Workbook, got #{excel_file.class}."
+        raise ArgumentError, "Could not evaluate the sheets existance, " \
+                             "the matcher expected an instance of Roo::Excelx, " \
+                             "Axlsx::Package or Axlsx::Workbook, got #{excel_file.class}."
       end
 
       def match_caxlsx(excel_file)
@@ -77,8 +77,8 @@ module RSpec
           roo_file = Roo::Spreadsheet.open(excel_file)
           match_roo_excelx(roo_file)
         else
-          raise ArgumentError, "Could not evaluate the sheets existance, "\
-          "the matcher received a string, but Roo::Spreadsheet is not defined"
+          raise ArgumentError, "Could not evaluate the sheets existance, " \
+                               "the matcher received a string, but Roo::Spreadsheet is not defined"
         end
       end
 

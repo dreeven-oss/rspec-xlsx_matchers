@@ -28,4 +28,22 @@ module DataSamples
 
     let(:file_path) { fixture_file_path "file_example_XLSX_10.xlsx" }
   end
+
+  RSpec.shared_context "with simple example empty data" do
+    let(:raw_data) do
+      []
+    end
+
+    let(:caxlsx_data) do
+      Axlsx::Package.new do |p|
+        p.workbook.add_worksheet(name: "Sheet1") do |sheet|
+          raw_data.each do |d|
+            sheet.add_row d
+          end
+        end
+      end
+    end
+
+    let(:file_path) { fixture_file_path "file_example_XLSX_empty.xlsx" }
+  end
 end

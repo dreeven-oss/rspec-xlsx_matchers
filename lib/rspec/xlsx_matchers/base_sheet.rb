@@ -4,15 +4,16 @@ module RSpec
   module XlsxMatchers
     class BaseSheet
       include Utils
-      attr_reader :sheet_name, :sheet
-
-      def initialize; end
+      attr_reader :sheet_name, :sheet, :subject
 
       def matches?(subject)
-        @sheet = find_sheet(subject, sheet_name)
+        @subject = subject
+        @sheet = find_sheet
         return false if sheet.nil?
 
-        process_sheet
+        process_sheet.tap do
+          finalize
+        end
       end
 
       def in_sheet(name)
@@ -22,24 +23,28 @@ module RSpec
 
       private
 
-      def find_sheet(subject, sheet_name = nil)
-        find_axlsx_sheet(subject, sheet_name) || find_roo_sheet(subject, sheet_name)
+      def find_sheet
+        find_axlsx_sheet || find_roo_sheet
       rescue RangeError, ArgumentError
         nil
       end
 
-      def find_axlsx_sheet(subject, sheet_name = nil)
+      def find_axlsx_sheet
         return unless defined?(Axlsx)
         return subject if subject.is_a?(Axlsx::Worksheet)
 
-        subject = subject.workbook if subject.is_a?(Axlsx::Package)
+        workbook = if subject.is_a?(Axlsx::Package)
+                     subject.workbook
+                   else
+                     subject
+                   end
 
-        return unless subject.is_a?(Axlsx::Workbook)
+        return unless workbook.is_a?(Axlsx::Workbook)
 
-        axlsx_sheet_from_workbook(subject, sheet_name)
+        axlsx_sheet_from_workbook(workbook)
       end
 
-      def axlsx_sheet_from_workbook(workbook, sheet_name = nil)
+      def axlsx_sheet_from_workbook(workbook)
         if sheet_name.is_a?(String)
           workbook.sheet_by_name(sheet_name)
         elsif sheet_name.is_a?(Integer)
@@ -49,20 +54,24 @@ module RSpec
         end
       end
 
-      def find_roo_sheet(subject, sheet_name = nil)
+      def find_roo_sheet
         return unless defined?(Roo::Excelx)
         return subject if subject.is_a?(Roo::Excelx::Sheet)
 
-        spreadsheet = if subject.is_a?(Roo::Excelx)
-                        subject
-                      elsif subject.is_a?(String)
-                        Roo::Spreadsheet.open(subject)
-                      end
-
-        return unless spreadsheet
+        return unless roo_spreadsheet
         return unless sheet_name
 
-        spreadsheet.sheet_for(sheet_name)
+        roo_spreadsheet.sheet_for(sheet_name)
+      end
+
+      def roo_spreadsheet
+        return @roo_spreadsheet unless @roo_spreadsheet.nil?
+
+        @roo_spreadsheet = if subject.is_a?(Roo::Excelx)
+                             subject
+                           elsif subject.is_a?(String) || subject.is_a?(File)
+                             Roo::Spreadsheet.open(subject)
+                           end
       end
 
       def process_sheet
@@ -89,6 +98,12 @@ module RSpec
         else
           msg
         end
+      end
+
+      def finalize
+        roo_spreadsheet&.close
+      rescue StandardError => e
+        puts "Warning: error closing Roo Spreadsheet: #{e}"
       end
     end
   end

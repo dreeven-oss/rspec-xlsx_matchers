@@ -268,10 +268,15 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
     end
   end
 
-  
-
   context "when providing a path" do
     subject(:subject) { file_path }
+
+    it_behaves_like "columns matcher in sheet"
+    it_behaves_like "column matcher in sheet"
+  end
+
+  context "when providing a File" do
+    subject(:subject) { File.open(file_path) }
 
     it_behaves_like "columns matcher in sheet"
     it_behaves_like "column matcher in sheet"

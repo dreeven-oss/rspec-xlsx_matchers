@@ -13,7 +13,8 @@ module RSpec
       private
 
       def row
-        return if @sheet.nil?
+        return if sheet.nil?
+        return if row_index.nil?
 
         @row ||= find_row
       end
@@ -27,7 +28,11 @@ module RSpec
       end
 
       def row_not_found_message
-        "Row #{row_index} is empty" if row.nil?
+        "Row #{row_index} is empty" if row_not_found?
+      end
+
+      def row_not_found?
+        row.nil? || row.compact.empty?
       end
     end
   end

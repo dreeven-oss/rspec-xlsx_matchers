@@ -1,8 +1,10 @@
 require:
   - rubocop-rspec
+  - rubocop-rake
 
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0
+  NewCops: enable
 
 Style/StringLiterals:
   Enabled: true
@@ -23,4 +25,7 @@ RSpec/MultipleExpectations:
   Enabled: false
 
 RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/SubjectDeclaration:
   Enabled: false

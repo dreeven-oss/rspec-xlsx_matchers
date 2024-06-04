@@ -65,6 +65,12 @@ RSpec.describe RSpec::XlsxMatchers::Sheets do
     it_behaves_like "sheet matcher"
   end
 
+  context "when providing a File" do
+    subject(:subject) { File.open(file_path) }
+
+    it_behaves_like "sheet matcher"
+  end
+
   context "when providing a Roo::Excelx file" do
     let(:subject) { Roo::Spreadsheet.open(file_path) }
 

@@ -69,8 +69,8 @@ module RSpec
       def column_order_failure_message
         return unless exact_match
 
-        "Expected: #{map_output(expected_columns)}\n\t"\
-        "Received: #{map_output(actual_columns)}"
+        "Expected: #{map_output(expected_columns)}\n\t" \
+          "Received: #{map_output(actual_columns)}"
       end
 
       def column_mismatch_failure_message

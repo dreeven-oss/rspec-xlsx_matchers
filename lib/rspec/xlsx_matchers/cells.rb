@@ -16,7 +16,7 @@ module RSpec
         @mismatch_indexes = []
       end
 
-      def failure_message
+      def failure_message # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         return sheet_failure_message if sheet.nil?
         return row_not_found_message if row.nil?
 
@@ -69,7 +69,7 @@ module RSpec
         @biggest_expected_cell_size ||= (expected_cells.map { |c| c.to_s.size } + [EXPECTED.size]).max
       end
 
-      def failure_message_header(message)
+      def failure_message_header(message) # rubocop:disable Metrics/AbcSize
         # Table Header
         message << "     | #{RECEIVED}"
         message << (" " * (biggest_actual_cell_size - RECEIVED.size))
