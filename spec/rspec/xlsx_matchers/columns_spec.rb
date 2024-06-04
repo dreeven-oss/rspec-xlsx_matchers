@@ -5,6 +5,7 @@ require "spec_helper"
 RSpec.describe RSpec::XlsxMatchers::Columns do
   include_context "with simple example data"
   let(:expected_columns) { raw_data[0] }
+  let(:expected_column) { raw_data[0][2] }
 
   RSpec.shared_examples "columns matcher in sheet" do
     it "succeeds with all columns in sheet by name" do
@@ -113,6 +114,84 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
     end
   end
 
+  RSpec.shared_examples "column matcher in sheet" do
+    it "succeeds with one column in sheet by name" do
+      expect(subject).to have_excel_column(expected_column).in_sheet("Sheet1")
+    end
+
+    it "succeeds with one column (integer) in sheet by name" do
+      expect(subject).to have_excel_column(0).in_sheet("Sheet1")
+    end
+
+    it "fails with an array of colums in sheet by name" do
+      expect do
+        expect(subject).to have_excel_column(expected_columns).in_sheet("Sheet1")
+      end.to raise_error(
+        ArgumentError,
+        "Column name should not be an Array"
+      )
+    end
+
+    it "succeeds with one column in sheet by index" do
+      expect(subject).to have_excel_columns(expected_column).in_sheet(0)
+    end
+
+    it "fails if sheet is absent" do
+      expect do
+        expect(subject).to have_excel_column(expected_column)
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Sheet not provided"
+      )
+    end
+
+    it "fails if sheet name is invalid" do
+      expect do
+        expect(subject).to have_excel_columns(expected_column).in_sheet("Not A Sheet")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Could not find sheet Not A Sheet"
+      )
+    end
+
+    it "fails if sheet index is invalid" do
+      expect do
+        expect(subject).to have_excel_columns(expected_column).in_sheet(2)
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Could not find sheet 2"
+      )
+    end
+
+    it "fails if the column is not found" do
+      expect do
+        expect(subject).to have_excel_columns("SSN").in_sheet("Sheet1")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Columns mismatch in sheet Sheet1:\n\tMissing columns: 'SSN'"
+      )
+    end
+  end
+
+  RSpec.shared_examples "column matcher without sheet" do
+    it "succeeds with one column by name" do
+      expect(subject).to have_excel_column("Gender")
+    end
+
+    it "succeeds with one column by name (integer)" do
+      expect(subject).to have_excel_column(0)
+    end
+
+    it "fails if one column is not found" do
+      expect do
+        expect(subject).to have_excel_column("SSN")
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Columns mismatch:\n\tMissing columns: 'SSN'"
+      )
+    end
+  end
+
   RSpec.shared_examples "columns matcher without sheet" do
     it "succeeds with some columns" do
       expect(subject).to have_excel_columns(["Gender", "First Name"])
@@ -189,39 +268,47 @@ RSpec.describe RSpec::XlsxMatchers::Columns do
     end
   end
 
+  
+
   context "when providing a path" do
     subject(:subject) { file_path }
 
     it_behaves_like "columns matcher in sheet"
+    it_behaves_like "column matcher in sheet"
   end
 
   context "when providing a Roo::Excelx" do
     subject(:subject) { Roo::Spreadsheet.open(file_path) }
 
     it_behaves_like "columns matcher in sheet"
+    it_behaves_like "column matcher in sheet"
   end
 
   context "when providing a Roo::Excelx::Sheet" do
     subject(:subject) { Roo::Spreadsheet.open(file_path).sheet_for("Sheet1") }
 
     it_behaves_like "columns matcher without sheet"
+    it_behaves_like "column matcher without sheet"
   end
 
   context "when providing a Axlsx::Package" do
     subject(:subject) { caxlsx_data }
 
     it_behaves_like "columns matcher in sheet"
+    it_behaves_like "column matcher in sheet"
   end
 
   context "when providing a Axlsx::Workbook" do
     subject(:subject) { caxlsx_data.workbook }
 
     it_behaves_like "columns matcher in sheet"
+    it_behaves_like "column matcher in sheet"
   end
 
   context "when providing a Axlsx::Worksheet" do
     subject(:subject) { caxlsx_data.workbook.worksheets[0] }
 
     it_behaves_like "columns matcher without sheet"
+    it_behaves_like "column matcher without sheet"
   end
 end

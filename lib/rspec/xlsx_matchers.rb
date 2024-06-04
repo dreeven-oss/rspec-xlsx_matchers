@@ -35,6 +35,12 @@ module RSpec
       Columns.new(column_names)
     end
 
+    def have_excel_column(column_name)
+      raise ArgumentError, "Column name should not be an Array" if column_name.is_a?(Array)
+
+      Columns.new([column_name])
+    end
+
     def have_excel_empty_row(index)
       EmptyRow.new(index)
     end
