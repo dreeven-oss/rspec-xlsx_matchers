@@ -12,9 +12,7 @@ module RSpec
         @sheet = find_sheet
         return false if sheet.nil?
 
-        process_sheet.tap do
-          finalize
-        end
+        process_sheet
       end
 
       def in_sheet(name)
@@ -99,12 +97,6 @@ module RSpec
         else
           msg
         end
-      end
-
-      def finalize
-        roo_spreadsheet&.close
-      rescue StandardError => e
-        puts "Warning: error closing Roo Spreadsheet: #{e}"
       end
     end
   end

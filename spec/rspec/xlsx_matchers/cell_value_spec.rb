@@ -12,6 +12,13 @@ RSpec.describe RSpec::XlsxMatchers::CellValue do
       expect(subject).to have_excel_cell_value(1).in_row(1).in_sheet(sheet).in_column("0")
     end
 
+    it "works with multiple expects" do
+      aggregate_failures do
+        expect(subject).to have_excel_cell_value(1).in_row(1).in_sheet(sheet).in_column("0")
+        expect(subject).to have_excel_cell_value("Hashimoto").in_row(2).in_sheet(sheet).in_column("Last Name")
+      end
+    end
+
     it "fails when sheet is not provided" do
       expect do
         expect(subject).to have_excel_cell_value("Hashimoto").in_row(2).in_column("Last Name")

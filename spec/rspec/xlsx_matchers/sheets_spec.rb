@@ -57,6 +57,13 @@ RSpec.describe RSpec::XlsxMatchers::Sheets do
         "Xlsx file sheets not found: '1'"
       )
     end
+
+    it "works with multiple expects" do
+      aggregate_failures do
+        expect(subject).to have_excel_sheets("Sheet1")
+        expect(subject).to have_excel_sheets(0)
+      end
+    end
   end
 
   context "when providing a path" do
