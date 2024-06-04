@@ -2,6 +2,8 @@
 
 Provides rspec matchers for testing xlsx data with `roo` or `caxlsx` gems.
 
+Inspired from code originally written by [Samuel Trottier](https://github.com/SamuelTrottier).
+
 ## Optional dependencies
 
  - [roo](https://github.com/roo-rb/roo)
