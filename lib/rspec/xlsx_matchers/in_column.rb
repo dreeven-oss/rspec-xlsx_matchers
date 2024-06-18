@@ -11,6 +11,11 @@ module RSpec
         self
       end
 
+      def in_column_by_index(index)
+        @column_index = index
+        self
+      end
+
       private
 
       def column_index

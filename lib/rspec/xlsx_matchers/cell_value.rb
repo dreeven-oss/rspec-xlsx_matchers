@@ -19,8 +19,16 @@ module RSpec
         return row_not_found_message if row_not_found?
         return column_not_found_message if column_not_found?
 
-        "Mismatch cell value in column '#{column_name}' of row '#{row_index}': " \
+        "Mismatch cell value in column #{failure_message_in_column} of row '#{row_index}': " \
           "expected: '#{expected_value}', received: '#{actual_value}'"
+      end
+
+      def failure_message_in_column
+        if column_name.nil?
+          "column with index #{column_index}"
+        else
+          "column '#{column_name}'"
+        end
       end
 
       private

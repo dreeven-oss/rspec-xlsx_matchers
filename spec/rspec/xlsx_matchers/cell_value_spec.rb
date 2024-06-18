@@ -8,6 +8,10 @@ RSpec.describe RSpec::XlsxMatchers::CellValue do
       expect(subject).to have_excel_cell_value("Hashimoto").in_row(2).in_sheet(sheet).in_column("Last Name")
     end
 
+    it "succeeds with string in_column_by_index" do
+      expect(subject).to have_excel_cell_value("Hashimoto").in_row(2).in_sheet(sheet).in_column_by_index(2)
+    end
+
     it "succeeds with 1" do
       expect(subject).to have_excel_cell_value(1).in_row(1).in_sheet(sheet).in_column("0")
     end
@@ -43,6 +47,15 @@ RSpec.describe RSpec::XlsxMatchers::CellValue do
       end.to raise_error(
         RSpec::Expectations::ExpectationNotMetError,
         "Column SSN not found"
+      )
+    end
+
+    it "fails when column is not found by index" do
+      expect do
+        expect(subject).to have_excel_cell_value("Hashimoto").in_row(2).in_column_by_index(20).in_sheet(sheet)
+      end.to raise_error(
+        RSpec::Expectations::ExpectationNotMetError,
+        "Mismatch cell value in column column with index 20 of row '2': expected: 'Hashimoto', received: ''"
       )
     end
   end
