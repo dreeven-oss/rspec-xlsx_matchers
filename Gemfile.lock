@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec-xlsx_matchers (0.1.5)
+    rspec-xlsx_matchers (0.1.6)
       rspec (~> 3.0)
 
 GEM
