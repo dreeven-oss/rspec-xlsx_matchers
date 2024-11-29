@@ -12,6 +12,7 @@ require_relative "xlsx_matchers/columns"
 require_relative "xlsx_matchers/empty_row"
 require_relative "xlsx_matchers/cells"
 require_relative "xlsx_matchers/cell_value"
+require_relative "xlsx_matchers/rows_with_data"
 
 begin
   require "roo"
@@ -32,6 +33,7 @@ module RSpec
   #  - have_excel_empty_row
   #  - have_excel_cells
   #  - have_excel_cell_value
+  #  - have_excel_rows_with_data
   module XlsxMatchers
     # class Error < StandardError; end
 
@@ -59,6 +61,10 @@ module RSpec
 
     def have_excel_cell_value(value)
       CellValue.new(value)
+    end
+
+    def have_excel_rows_with_data(count)
+      RowsWithData.new(count)
     end
   end
 end
