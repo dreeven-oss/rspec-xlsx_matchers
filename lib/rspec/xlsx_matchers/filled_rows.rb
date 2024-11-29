@@ -3,7 +3,7 @@
 module RSpec
   module XlsxMatchers
     # filled rows count matcher
-    class RowsWithData < BaseSheet
+    class FilledRows < BaseSheet
       attr_reader :expected_filled_row_count
 
       def initialize(count)
