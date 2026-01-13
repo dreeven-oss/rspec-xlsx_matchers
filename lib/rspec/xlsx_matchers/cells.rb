@@ -5,6 +5,7 @@ module RSpec
     # have_excel_cells
     class Cells < BaseSheet
       include InRow
+
       attr_reader :expected_cells, :actual_cells, :mismatch_indexes
 
       EXPECTED = "Expected"
@@ -32,7 +33,7 @@ module RSpec
           message << (" " * (biggest_actual_cell_size - sizeof_actual_cell))
           message << " | #{expected_cell}"
           message << (" " * (biggest_expected_cell_size - sizeof_expected_cell))
-          message << " | #{mismatch_indexes.include?(idx) ? "<----- Mismatch" : ""}"
+          message << " | #{"<----- Mismatch" if mismatch_indexes.include?(idx)}"
           message << "\n"
         end
         message
@@ -78,7 +79,7 @@ module RSpec
         message << (" " * (biggest_expected_cell_size - EXPECTED.size))
         message << " |\n"
         # Header / Content separator
-        message << ("#{"-" * 5}|#{"-" * (2 + biggest_actual_cell_size)}|#{"-" * (2 + @biggest_expected_cell_size)}|\n")
+        message << "#{"-" * 5}|#{"-" * (2 + biggest_actual_cell_size)}|#{"-" * (2 + @biggest_expected_cell_size)}|\n"
         message
       end
     end

@@ -6,6 +6,7 @@ module RSpec
     class CellValue < BaseSheet
       include InRow
       include InColumn
+
       attr_reader :expected_value, :actual_value
 
       def initialize(expected_value)

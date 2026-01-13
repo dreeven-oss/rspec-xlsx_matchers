@@ -17,7 +17,7 @@ RSpec.configure do |config|
   end
 end
 
-Dir[("#{RSPEC_ROOT}/support/**/*.rb")].each { |file| require file }
+Dir["#{RSPEC_ROOT}/support/**/*.rb"].each { |file| require file }
 
 def fixture_file_path(name)
   "#{RSPEC_ROOT}/fixtures/files/#{name}"

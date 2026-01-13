@@ -5,6 +5,7 @@ module RSpec
     # Base class for sheet based machers
     class BaseSheet
       include Utils
+
       attr_reader :sheet_name, :sheet, :subject
 
       def matches?(subject)

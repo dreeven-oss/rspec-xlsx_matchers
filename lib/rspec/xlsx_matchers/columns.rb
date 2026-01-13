@@ -5,6 +5,7 @@ module RSpec
     # have_excel_columns / have_excel_column
     class Columns < BaseSheet
       include ExactMatch
+
       attr_reader :extra_columns, :missing_columns, :expected_columns, :actual_columns
 
       def initialize(expected_columns)

@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rspec
   - rubocop-rake
 
@@ -17,9 +17,14 @@ Style/StringLiteralsInInterpolation:
 Layout/LineLength:
   Max: 120
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   NamePrefix: 
     - is_
+  ForbiddenPrefixes:
+    - is_
+
+Naming/PredicateMethod:
+  Enabled: false
 
 RSpec/MultipleExpectations:
   Enabled: false
@@ -28,4 +33,7 @@ RSpec/ExampleLength:
   Enabled: false
 
 RSpec/SubjectDeclaration:
+  Enabled: false
+
+RSpec/IncludeExamples:
   Enabled: false
