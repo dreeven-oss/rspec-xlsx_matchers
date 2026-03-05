@@ -25,6 +25,9 @@ begin
 rescue LoadError
   # optional dependency
 end
+
+raise "Missing dependencies! Please install either roo or caxlsx gems" unless defined?(Roo) || defined?(Axlsx)
+
 module RSpec
   # # RSpec::XlsxMatchers adds the following matchers to rspec
   #  - have_excel_sheets
