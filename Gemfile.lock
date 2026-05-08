@@ -23,7 +23,7 @@ GEM
     logger (1.7.0)
     marcel (1.1.0)
     mini_portile2 (2.8.9)
-    nokogiri (1.19.1)
+    nokogiri (1.19.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     parallel (1.27.0)
